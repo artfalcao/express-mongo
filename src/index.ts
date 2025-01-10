@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // MongoDB connection
-const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/mydatabase";
+const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/alura-books";
 // mongoose
 //   .connect(mongoURI, {
 //     dbName: "mydatabase",
