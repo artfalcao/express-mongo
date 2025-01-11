@@ -1,27 +1,7 @@
-import express from "express";
-import User from "../models/userModels";
+import express, { Router } from "express";
+import UsersControllers from "../controllers/usersControllers";
 
-const router = express.Router();
+export const routes: Router = express.Router();
 
-// Create a new user
-router.post("/", async (req, res) => {
-  try {
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).send(user);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
-
-// Get all users
-router.get("/", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.send(users);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-export default router;
+routes.get("/", UsersControllers.getUsers);
+routes.post("/", UsersControllers.createUser);

@@ -1,24 +1,22 @@
-import express from "express";
-import mongoose from "mongoose";
-import userRoutes from "./routes/userRoutes";
+import express, { Express } from "express";
+import connectDatabase from "./config/dbConnect";
+import routes from "./routes";
 
-const app = express();
+const app: Express = express();
 const port = process.env.PORT || 3000
 
-// Middleware
-app.use(express.json());
+// Routes
+routes(app);
 
 // MongoDB connection
-const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/alura-books";
-mongoose
-  .connect(mongoURI, {
-    dbName: "mydatabase",
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((error) => console.error("MongoDB connection error:", error));
+const conn = await connectDatabase()
+conn.on('error', (err) => {
+  console.error("CONNECTION ERROR: ", err);
+});
 
-// Routes
-app.use("/users", userRoutes);
+conn.once('open', () => {
+  console.error("CONNECTED ON MONGO_DB SUCCESSFULY");
+});
 
 // Start server
 app.listen(port, () => {
